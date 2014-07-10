@@ -1,0 +1,38 @@
+{
+    "manifest_version": 1,
+    "type": "WebApp",
+    "meta": {
+        "name": "Adam's App",
+        "version": "1.0.0",
+        "minimum-overwolf-version": "0.77.1.0",
+        "author": "Adam Keenan",
+        "icon": "IconMouseOver.png",
+        "icon_gray": "IconMouseNormal.png",
+        "description": "Test App"
+    },
+    "data": {
+        "start_window": "main",
+        "windows": {
+            "main": {
+                "file": "Files/index.html",
+                "transparent": false,
+                "resizable": false,
+                "size": { "width": 800, "height": 600 },
+                "min_size": { "width": 200, "height": 200 },
+                "max_size": { "width": 1000, "height": 1000 }
+            },
+            "channels": {
+                "file": "Files/channels.html",
+                "transparent": false,
+                "resizable": false,
+                "size": { "width": 200, "height": 400 },
+            },
+            "options": {
+                "file": "Files/options.html",
+                "transparent": false,
+                "resizable": false,
+                "size": { "width": 200, "height": 400 },
+            },
+        }
+    }
+}

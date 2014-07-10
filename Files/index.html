@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Adam's Overwolf App</title>
+        <script src="jquery-2.1.1.js"></script>
+        <link rel="stylesheet" href="style.css"/>
+    </head>
+<body style="background-color: #222; color: #ccc">
+    <button id="close">X</button>
+    <h2>Channels:</h2>
+    <ul id="channels"></ul>
+    <h2>Stats:</h2>
+    <ul id="stats">
+        <li>Mic Muted: <span></span></li>
+        <li>Talking: <span></span></li>
+        <li>Away: <span></span></li>
+    </ul>
+    <button onclick="mute()">Mute</button>
+    <button onclick="runTeamSpeak()">Open Default TS App</button>
+    <button id="channels">Channels</button>
+
+
+
+
+
+
+    <object id="ts_plugin" type="application/x-overwolfteamspeakplugin" style="width:0;height:0">
+        <param name="onload" value="pluginLoaded" />
+    </object>
+    <script src="functions.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

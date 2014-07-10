@@ -1,0 +1,8 @@
+.channel {
+    
+}
+
+.channel:hover {
+    cursor: pointer;
+    color: #888;
+}
