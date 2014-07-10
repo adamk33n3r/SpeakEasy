@@ -1,3 +1,41 @@
+* {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+body {
+    margin: 0;
+    padding: 5px;
+    background-color: #222;
+    color: #ccc;
+    overflow: hidden;
+}
+
+h3#title {
+    display: inline
+}
+
+button {
+    margin: 0;
+    border: 2px solid #333;
+    background-color: #555;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    border-color: #444;
+    background-color: #666;
+}
+
+button#close {
+    float: right;
+}
+
+button.hidden {
+    display: none;
+}
+
 .channel {
     
 }
@@ -5,4 +43,8 @@
 .channel:hover {
     cursor: pointer;
     color: #888;
+}
+
+ul.unstyled {
+    list-style-type: none;
 }

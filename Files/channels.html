@@ -5,9 +5,13 @@
         <link rel="stylesheet" href="style.css"/>
     </head>
     <body>
+        <h2>Channels:</h2>
+        <ul id="channels" class="unstyled"></ul>
+
+        <object id="ts_plugin" type="application/x-overwolfteamspeakplugin" style="width:0;height:0">
+            <param name="onload" value="pluginLoaded" />
+        </object>
         <script src="functions.js"></script>
-        <script>
-            window.localStorage.setItem("server", 504);
-        </script>
+        <script src="channels.js"></script>
     </body>
 </html>

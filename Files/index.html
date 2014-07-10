@@ -4,29 +4,21 @@
         <script src="jquery-2.1.1.js"></script>
         <link rel="stylesheet" href="style.css"/>
     </head>
-<body style="background-color: #222; color: #ccc">
-    <button id="close">X</button>
-    <h2>Channels:</h2>
-    <ul id="channels"></ul>
-    <h2>Stats:</h2>
-    <ul id="stats">
-        <li>Mic Muted: <span></span></li>
-        <li>Talking: <span></span></li>
-        <li>Away: <span></span></li>
-    </ul>
-    <button onclick="mute()">Mute</button>
-    <button onclick="runTeamSpeak()">Open Default TS App</button>
-    <button id="channels">Channels</button>
+    <body>
+        <button id="close">X</button>
+        <h3 id="title">Adam Keenan's TS App</h3>
+        <button class="control hidden" onclick="mute()">Mute</button>
+        <button class="control hidden" onclick="runTeamSpeak()">Open Default TS App</button>
+        <button class="control hidden" id="channels">Channels</button>
 
 
 
 
 
-
-    <object id="ts_plugin" type="application/x-overwolfteamspeakplugin" style="width:0;height:0">
-        <param name="onload" value="pluginLoaded" />
-    </object>
-    <script src="functions.js"></script>
-    <script src="main.js"></script>
-</body>
+        <object id="ts_plugin" type="application/x-overwolfteamspeakplugin" style="width:0;height:0">
+            <param name="onload" value="pluginLoaded" />
+        </object>
+        <script src="functions.js"></script>
+        <script src="main.js"></script>
+    </body>
 </html>

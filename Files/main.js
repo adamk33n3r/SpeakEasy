@@ -1,8 +1,4 @@
-function getPlugin() {
-    return document.getElementById('ts_plugin');
-}
 
-plugin = getPlugin;
 
 function addEvent(obj, name, func) {
     if (obj.attachEvent) {
@@ -42,15 +38,16 @@ function pluginLoaded() {
                 });
             } else { // connected to server
                 plugin().getServerInfo(0, function(result, server){
-                    if (result.success)
+                    if (result.success) {
                         vars.server = server;
-                    else
+                        $("button.control").removeClass("hidden");
+                        plugin().getChannels(vars.server.serverId, function(result, channels) {
+                            console.log("Channels:", channels);
+                            vars.channels = channels;
+                            saveVars();
+                        });
+                    } else
                         alert("Error acquiring server information!");
-                    plugin().getChannels(vars.server.serverId, function(result, channels) {
-                        console.log("Channels:", channels);
-                        vars.channels = channels;
-                        addChannels();
-                    });
                     window.setInterval(updateClientInfo, 500);
                 });
             }
@@ -70,17 +67,4 @@ $(function() {
                 overwolf.windows.close(result.window.id);
         });
     });
-    $("button#channels").click(function(e) {
-        overwolf.windows.obtainDeclaredWindow("channels", function(result) {
-            if (result.status === "success")
-                overwolf.windows.restore(result.window.id, function(result) {
-                    console.log(result);
-                });
-        });
-    });
-
-    $("body").on("click", ".channel", function(e) {
-        //alert("Clicked on it! "+ e.target.innerHTML);
-        switchChannel(e.target.getAttribute("data-channelid"));
-    });
-})
+});
