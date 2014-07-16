@@ -1,70 +1,55 @@
-
-
-function addEvent(obj, name, func) {
-    if (obj.attachEvent) {
-        obj.attachEvent("on"+name, func);
-    } else {
-        obj.addEventListener(name, func, false); 
-    }
-}
-
-debug = function(result) {
-    console.log(result);
-}
-
-
-
+var refresh_id;
 function pluginLoaded() {
     plugin().addEventListener("onServerStatusChange", function(data) {
-        console.log("onServerStatusChang: ",data);
+        debug("onServerStatusChange: ",data);
     });
 
     setTimeout(function() {
 
-        plugin().init({name: "Adam's Overwolf Teamspeak App"}, function(result,servers) {
-            //console.log("result: ",result ,servers);
+        plugin().init({name: "SpeakEasy"}, function(result,servers) {
+            debug("result: ",result ,servers);
+
+            if (!result.success) {
+                debug("Error loading plugin", result);
+                alert("Error loading ts plugin");
+                return;
+            }
 
             // no server is connected
             if (servers && !servers.activeServerId)  {
-                plugin().connectToServer( { tab :"currentTab", 
+                /*plugin().connectToServer( { tab :"currentTab", 
                     label:"VBox Server", 
                     address :"webserver", 
                     nickName:"Keener" },
                     function(result,server) {
-                        console.log("start new connection: ",result , server)
+                        debug("start new connection: ",result , server)
                     });
                 plugin().switchChannel({channelId:"2"}, function(result, channels) {
                     alert("Switched to channel?");
-                });
+                });*/
+                //refresh_id = window.setInterval(setupServer, 500);
             } else { // connected to server
-                plugin().getServerInfo(0, function(result, server){
-                    if (result.success) {
-                        vars.server = server;
-                        $("button.control").removeClass("hidden");
-                        plugin().getChannels(vars.server.serverId, function(result, channels) {
-                            console.log("Channels:", channels);
-                            vars.channels = channels;
-                            saveVars();
-                        });
-                    } else
-                        alert("Error acquiring server information!");
-                    window.setInterval(updateClientInfo, 500);
+                plugin().getServerInfo(servers.activeServerId, function(result, server){
+                    if (result.success)
+                        setupServer(server);
+                    else {
+                        debug("Error acquiring server information!");
+                        debug(result);
+                    }
                 });
             }
         });
 
-    }, 500);
+    }, 1000);
 }
 
 
 
 
 $(function() {
-    setup();
-    $("button#close").click(function(e) {
-        overwolf.windows.getCurrentWindow(function(result) {
-            if (result.status === "success")
-                overwolf.windows.close(result.window.id);
-        });
+    setup(true);
+    addListeners();
+    $("button.control[data-window]").click(function() {
+        openWindow($(this).data("window"));
     });
 });

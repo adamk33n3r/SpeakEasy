@@ -5,11 +5,21 @@
         <link rel="stylesheet" href="style.css"/>
     </head>
     <body>
-        <button id="close">X</button>
-        <h3 id="title">Adam Keenan's TS App</h3>
-        <button class="control hidden" onclick="mute()">Mute</button>
-        <button class="control hidden" onclick="runTeamSpeak()">Open Default TS App</button>
-        <button class="control hidden" id="channels">Channels</button>
+        <div class="container portrait">
+            <div id="header">
+                <button id="layout"></button>
+                <button id="close">X</button>
+                <h3 id="title">SpeakEasy</h3>
+            </div>
+            <div id="modules">
+                <ul class="unstyled">
+                    <li id="no-server">Waiting for server...</li>
+                    <li><button class="control hidden" onclick="runTeamSpeak()">Open Default TS App</button></li>
+                    <li><button class="control hidden" data-window="channels">Channels</button></li>
+                    <li><button class="control hidden" data-window="settings">Settings</button></li>
+                </ul>
+            </div>
+        </div>
 
 
 

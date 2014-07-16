@@ -2,8 +2,8 @@
     "manifest_version": 1,
     "type": "WebApp",
     "meta": {
-        "name": "Adam's App",
-        "version": "1.0.0",
+        "name": "SpeakEasy",
+        "version": "0.0.5",
         "minimum-overwolf-version": "0.77.1.0",
         "author": "Adam Keenan",
         "icon": "IconMouseOver.png",
@@ -16,18 +16,19 @@
             "main": {
                 "file": "Files/index.html",
                 "transparent": true,
-                "resizable": false,
-                "size": { "width": 800, "height": 33 },
+                "resizable": true,
+                "size": { "width": 200, "height": 400 },
+                "min_size": { "width": 0, "height": 0 },
             },
             "channels": {
                 "file": "Files/channels.html",
-                "transparent": false,
+                "transparent": true,
                 "resizable": false,
                 "size": { "width": 200, "height": 400 },
             },
-            "options": {
-                "file": "Files/options.html",
-                "transparent": false,
+            "settings": {
+                "file": "Files/settings.html",
+                "transparent": true,
                 "resizable": false,
                 "size": { "width": 200, "height": 400 },
             },
