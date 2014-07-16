@@ -40,7 +40,7 @@ function pluginLoaded() {
             }
         });
 
-    }, 1000);
+    }, 500);
 }
 
 

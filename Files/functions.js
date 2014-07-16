@@ -174,6 +174,7 @@ function setupServer(server) {
         debug("Channels:", channels);
         vars.channels = channels;
         saveVars();
+        openWindow("channels");
     });
     $("#no-server").hide();
     //if (refresh_id !== undefined)
@@ -198,6 +199,16 @@ function addListeners() {
         if(obj.error)
             debug("Error Code:", obj.errorCode, "-", error);
     });
+}
+
+function addChannel() {
+    $('#channels').append($('<li>').text('channel'));
+    ul = $("ul#channels");
+    $("#sides").css("height", ul.outerHeight());
+    if (ul.outerHeight() - 10 >= parseInt(ul.css("max-height"))) {
+        $("#more-down").show();
+        //$("#more-down").css("margin-top", ul.outerHeight() - 25);
+    }
 }
 
 $(function() {
