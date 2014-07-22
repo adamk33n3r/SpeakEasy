@@ -1,0 +1,139 @@
+* {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    cursor: move;
+}
+
+.container {
+    padding: 5px;
+    background-color: #555;
+    color: #ccc;
+    border: 3px #111 solid;
+    border-radius: 5px;
+}
+
+.landscape #header {
+    display: inline;
+}
+
+.portrait #title {
+    display: block;
+    margin: 0;
+    text-align: center;
+}
+
+.landscape #title {
+    display: inline;
+    padding-left: 5px;
+}
+
+.icon {
+    vertical-align: text-bottom;
+    font-size: 18pt;
+}
+
+#layout {
+    float: left;
+    font-size: 16pt;
+    padding: 0;
+}
+
+button {
+    margin: 0;
+    border: 2px solid #333;
+    background-color: #555;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    border-color: #444;
+    background-color: #666;
+}
+
+#close, #minimize {
+    float: right;
+}
+
+button.hidden {
+    display: none;
+}
+
+.channel {
+
+}
+
+.channel:hover {
+    cursor: pointer;
+    color: #888;
+}
+
+ul.unstyled, ol.unstyled {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.inline, ol.inline {
+    display: inline;
+}
+
+ul.inline > li, ol.inline > li {
+    display: inline;
+}
+
+ul#channels {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 270px;
+    padding: 5px 0 5px 10px;
+    margin-bottom: 20px;
+    background: #444;
+    border-radius: 3px;
+}
+
+ul#channels::-webkit-scrollbar {
+    display: none;
+}
+
+#more-up {
+    position: fixed;
+    pointer-events: none;
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
+    margin-left: -10px;
+    margin-top: -5px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+#more-down {
+    position: fixed;
+    pointer-events: none;
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+    margin-left: -10px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+#sides {
+    position: fixed;
+    pointer-events: none;
+    margin-left: -10px;
+    width: 150px;
+    box-shadow: 0px 0px 15px 0px black inset;
+    border-radius:3px;
+}
+
+
+#modules {
+    clear: both;
+}
+
+.landscape #modules {
+    display: inline;
+}

@@ -30,9 +30,13 @@ function pluginLoaded() {
                 //refresh_id = window.setInterval(setupServer, 500);
             } else { // connected to server
                 plugin().getServerInfo(servers.activeServerId, function(result, server){
-                    if (result.success)
+                    if (result.success) {
                         setupServer(server);
-                    else {
+                        plugin().getClientInfo({serverId: parseInt(vars.server.serverId)}, function(result, clientInfo) {
+                            if (result.success)
+                                setVar("clientInfo", clientInfo); 
+                        });
+                    } else {
                         debug("Error acquiring server information!");
                         debug(result);
                     }

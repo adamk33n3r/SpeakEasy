@@ -1,4 +1,4 @@
-LANDSCAPE=[800, 33]
+LANDSCAPE=[800, 39]
 PORTRAIT=[200, 400]
 
 DEBUG=true
@@ -174,7 +174,7 @@ function setupServer(server) {
         debug("Channels:", channels);
         vars.channels = channels;
         saveVars();
-        openWindow("channels");
+        openWindow("settings");
     });
     $("#no-server").hide();
     //if (refresh_id !== undefined)
@@ -195,6 +195,7 @@ function addListeners() {
             $("button.control").addClass("hidden");
             $("#no-server").show();
             closeWindow("channels");
+            closeWindow("settings");
         }
         if(obj.error)
             debug("Error Code:", obj.errorCode, "-", error);
