@@ -165,7 +165,7 @@ function setupServer(server) {
         debug("Channels:", channels);
         vars.channels = channels;
         saveVars();
-        openWindow("channels");
+        openWindow("notifications");
     });
     $("#no-server").hide();
     $("#container").removeClass("no-server");
