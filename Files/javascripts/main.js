@@ -53,7 +53,7 @@ function pluginLoaded() {
 $(function() {
     setup(true);
     addListeners();
-    $("button.control[data-window]").click(function() {
+    $("button[data-window]").click(function() {
         openWindow($(this).data("window"));
     });
 });

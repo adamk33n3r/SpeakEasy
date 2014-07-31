@@ -16,21 +16,36 @@
             "main": {
                 "file": "Files/index.html",
                 "transparent": true,
-                "resizable": true,
-                "size": { "width": 200, "height": 400 },
-                "min_size": { "width": 0, "height": 0 },
+                "resizable": false,
+                "size": { "width": 188, "height": 400 },
             },
             "channels": {
                 "file": "Files/channels.html",
                 "transparent": true,
+                "show_in_taskbar": true,
                 "resizable": false,
-                "size": { "width": 200, "height": 400 },
+                "size": { "width": 188, "height": 400 },
             },
-            "settings": {
-                "file": "Files/settings.html",
+            "toggles": {
+                "file": "Files/toggles.html",
                 "transparent": true,
+                "show_in_taskbar": true,
                 "resizable": false,
-                "size": { "width": 200, "height": 400 },
+                "size": { "width": 188, "height": 400 },
+            },
+            "chat": {
+                "file": "Files/chat.html",
+                "transparent": true,
+                "show_in_taskbar": true,
+                "resizable": false,
+                "size": { "width": 600, "height": 400 },
+            },
+            "help": {
+                "file": "Files/help.html",
+                "transparent": true,
+                "show_in_taskbar": false,
+                "resizable": false,
+                "size": { "width": 600, "height": 400 },
             },
         }
     }

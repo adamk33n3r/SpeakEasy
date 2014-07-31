@@ -1,6 +1,3 @@
-LANDSCAPE=[800, 39]
-PORTRAIT=[200, 400]
-
 DEBUG=true
 
 function debug() {
@@ -12,6 +9,7 @@ vars = {
     server: null,
     channels: null,
     clientInfo: null,
+    current_window: null,
 };
 
 /**
@@ -72,6 +70,8 @@ function addChannels() {
     debug("found "+vars.channels.length+" channels");
     //for (var i = 0; i < vars.channels.length; i++) {
     //    channel = vars.channels[i];
+    if (vars.channels.length > 0)
+        channels.children("li").remove();
     for (channel_idx in vars.channels) {
         var channel = vars.channels[channel_idx];
         debug(channel);
@@ -120,6 +120,9 @@ function runTeamSpeak(){
 }
 
 function setup(reset) {
+    overwolf.windows.getCurrentWindow(function(result){
+        vars.current_window = result.window;
+    });
     window.addEventListener("storage", update_vars, false);
     if (reset) {
         window.localStorage.setItem("server", null);
@@ -155,28 +158,17 @@ function closeWindow(window_name) {
     });
 }
 
-function changeLayout() {
-    if (window.innerHeight === LANDSCAPE[1]) {
-        onCurrentWindow(function(windowId) { overwolf.windows.changeSize(windowId, PORTRAIT[0], PORTRAIT[1]) });
-        $(".container").toggleClass("landscape portrait");
-        $("#modules ul").removeClass("inline");
-    } else {
-        onCurrentWindow(function(windowId) { overwolf.windows.changeSize(windowId, LANDSCAPE[0], LANDSCAPE[1]) });
-        $(".container").toggleClass("portrait landscape");
-        $("#modules ul").addClass("inline");
-    }
-}
-
 function setupServer(server) {
     vars.server = server;
-    $("button.control").removeClass("hidden");
+    $("button.button").removeClass("hidden");
     plugin().getChannels(vars.server.serverId, function(result, channels) {
         debug("Channels:", channels);
         vars.channels = channels;
         saveVars();
-        openWindow("settings");
+        openWindow("channels");
     });
     $("#no-server").hide();
+    $("#container").removeClass("no-server");
     //if (refresh_id !== undefined)
     //    window.clearInterval(refresh_id);
     //window.setInterval(updateClientInfo, 500);
@@ -192,10 +184,10 @@ function addListeners() {
         if (obj.status === "CONNECTION_ESTABLISHED")
             setupServer(obj.server);
         else if (obj.status === "DISCONNECTED") {
-            $("button.control").addClass("hidden");
+            $("button.button").addClass("hidden");
             $("#no-server").show();
             closeWindow("channels");
-            closeWindow("settings");
+            closeWindow("toggles");
         }
         if(obj.error)
             debug("Error Code:", obj.errorCode, "-", error);
@@ -203,7 +195,7 @@ function addListeners() {
 }
 
 function addChannel() {
-    $('#channels').append($('<li>').text('channel'));
+    $('#channels').append($('<li>').text('channel').addClass("channel"));
     ul = $("ul#channels");
     $("#sides").css("height", ul.outerHeight());
     if (ul.outerHeight() - 10 >= parseInt(ul.css("max-height"))) {
@@ -212,20 +204,58 @@ function addChannel() {
     }
 }
 
+function showControls() {
+    ctrls = $("#window-controls");
+    //if (!ctrls.is(":hidden"))
+    //ctrls.hide();
+    ctrls.fadeIn(100);
+}
+
+function hideControls() {
+    ctrls = $("#window-controls");
+    //if (!ctrls.is(":hidden"))
+    //ctrls.hide();
+    ctrls.fadeOut(100);
+}
+
+function windowControlVisibility(e) {
+    if (e.pageX === 0 && e.pageY === 0)
+        setVar("control-anim-"+vars.current_window.id, window.setTimeout(hideControls, 100));
+    else {
+        window.clearTimeout(getVar("control-anim"));
+        showControls();
+    }
+}
+
+
+function addWindowCtrls() {
+        window_ctrls = "<div id='window-controls' style='display: none;'>\
+            <button id='close-window'></button>\
+            <button id='minimize-window'></button>\
+            <button id='move-window' class='icon move'></button>\
+            <svg>\
+                <path d='M24,0 L24,60 C24,80 2,55 3,110 L0,110 L0,0 L19,0 A5,5 0 0,1 24,5' style='stroke: none; fill:#222;' />\
+                <path d='M0,1 L19,1 A5,5 0 0,1 24,5 L24,55 C24,80 2,55 3,110' style='stroke: #111; fill: none; stroke-width: 3px;' />\
+                <path stroke-dasharray='1,1' d='M3,1 L3,115' style='stroke: #111; stroke-width: 1px'/>\
+            </svg>\
+        </div>"
+        console.log(window_ctrls);
+        document.body.innerHTML = window_ctrls + document.body.innerHTML;
+}
+
 $(function() {
-    $(document.body).mousedown(drag);
+    addWindowCtrls();
+    //$(document.body).mousedown(drag);
+    $("#move-window").mousedown(drag);
+    $(document.body).mousemove(windowControlVisibility);
     $("button").mousedown(function(e) { e.stopPropagation() });
-    $(".channel").mousedown(function(e) { debug("hi");e.stopPropagation() });
-    $("button#close").click(function(e) {
+    $(".button").mouseover(function(e) {$(e.target).children(".tooltip").addClass("shown-inline")});
+    $(".button").mouseout(function(e) {$(e.target).children(".tooltip").removeClass("shown-inline")});
+    $(document.body).on("mousedown", ".channel", function(e) { debug("hi");e.stopPropagation() });
+    $("#close-window").click(function(e) {
         onCurrentWindow(overwolf.windows.close);
     });
-    $("button#minimize").click(function(e) {
+    $("#minimize-window").click(function(e) {
         onCurrentWindow(overwolf.windows.minimize);
     });
-    $("button#layout").click(changeLayout);
-    if (window.innerHeight === LANDSCAPE[1]) {
-        $(".container").toggleClass("portrait landscape");
-        $("#modules ul").addClass("inline");
-        //$("#modules ul").removeClass("unstyled");
-    }
 });

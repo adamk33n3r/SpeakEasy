@@ -1,9 +1,11 @@
-function pluginLoaded() {
-
+function setupGradients() {
+    $("#sides").css("height", ul.outerHeight());
+    $("#more-down").css("margin-top", parseInt(ul.css("max-height")) - 10);
 }
 
 $(function() {
     initVars();
+    setup();
     
     addChannels();
     $("body").on("click", ".channel", function(e) {
@@ -15,11 +17,8 @@ $(function() {
     mores.css("width", ul.outerWidth());
     if (ul.outerHeight() <= parseInt(ul.css("max-height")))
         mores.hide();
+    setupGradients();
     $("#more-up").hide();
-    $("#sides").css("height", ul.outerHeight());
-    $("#sides").css("width", ul.outerWidth());
-    $("#sides").css("margin-top", "-5px");
-    $("#more-down").css("margin-top", parseInt(ul.css("max-height")) - 15);
     ul.scroll(function() {
         ul = $("ul#channels").get(0);
         if (ul.scrollTop === 0) {
@@ -33,4 +32,6 @@ $(function() {
             $("#more-down").fadeIn(200);
         }
     });
+    for(var i=0;i<00;i++)
+        addChannel();
 });

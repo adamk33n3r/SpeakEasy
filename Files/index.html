@@ -6,19 +6,16 @@
         <link rel="stylesheet" href="stylesheets/style.css"/>
     </head>
     <body>
-        <div class="container portrait">
+        <div id="container" class="no-server">
             <div id="header">
-                <button id="layout" class="icon rotate"></button>
-                <button id="close">X</button>
+                <button class="icon info" data-window="help"></button>
                 <h3 id="title">SpeakEasy</h3>
             </div>
-            <div id="modules">
-                <ul class="unstyled">
-                    <li id="no-server">Waiting for server...</li>
-                    <li><button class="control hidden" onclick="runTeamSpeak()">Open Default TS App</button></li>
-                    <li><button class="control hidden" data-window="channels">Channels</button></li>
-                    <li><button class="control hidden" data-window="settings">Settings</button></li>
-                </ul>
+            <div id="content">
+                <p id="no-server">Waiting for server...</p>
+                <button class="button hidden" onclick="runTeamSpeak()">Chat</button>
+                <button class="button hidden red" data-window="channels">Channels</button>
+                <button class="button hidden green" data-window="toggles">Toggles</button>
             </div>
         </div>
 
