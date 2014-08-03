@@ -8,7 +8,7 @@ function debug() {
 vars = {
     server: null,
     channels: null,
-    clientInfo: null,
+    clients: {},
     current_window: null,
 };
 
@@ -34,7 +34,7 @@ function setVar(name, val) {
 function initVars() {
     vars.server = getVar("server");
     vars.channels = getVar("channels");
-    vars.clientInfo = getVar("clientInfo");
+    vars.clients = getVar("clients");
 }
 
 function saveVars() {
@@ -44,6 +44,9 @@ function saveVars() {
     }
 }
 
+function getUserClient() {
+    return vars.clients[vars.server.myClientId];
+}
 
 function getPlugin() {
     return document.getElementById('ts_plugin');
@@ -52,13 +55,16 @@ function getPlugin() {
 plugin = getPlugin;
 
 function updateClientInfo(info) {
-    setVar("clientInfo", info);
+    console.log("UPDATING CLIENT");
+    var clients = getVar("clients");
+    clients[info.clientId] = info;
+    setVar("clients", clients);
 }
 
 
 function switchChannel(channel) {
     debug(vars.server)
-    plugin().switchChannel({serverId: vars.server.serverId, channelId:channel, clientId: vars.server.myClientId}, function(result) {
+    plugin().switchChannel({serverId: vars.server.serverId, channelId:channel, clientId: getUserClient()}, function(result) {
         debug(result);
         //alert("Switched to channel?");
     });
@@ -94,15 +100,15 @@ function mute(options) {
     debug(options);
     if (options.mic === undefined && options.speakers === undefined)
         return False;
-    var mic = options.mic === "toggle" ? !vars.clientInfo.isInputMuted : options.mic;
-    var speakers = options.speakers === "toggle" ? !vars.clientInfo.isOutputMuted : options.speakers;
+    var mic = options.mic === "toggle" ? !vars.clients[vars.server.myClientId].isInputMuted : options.mic;
+    var speakers = options.speakers === "toggle" ? !getUserClient().isOutputMuted : options.speakers;
     var params = {serverId: vars.server.serverId}
     if (mic !== undefined)
         params.muteMicrophone = mic;
     if (speakers !== undefined)
         params.muteSpeakers = speakers;
     debug(params);
-    debug(vars.clientInfo);
+    debug(getUserClient());
     plugin().updateClientDeviceState(params, function(result) {
         debug(result);
     });
@@ -119,15 +125,16 @@ function runTeamSpeak(){
     overwolf.extensions.launch("lafgmhfbkjljkgoggomibmhlpijaofafbdhpjgif");
 }
 
-function setup(reset) {
+function setup(reset, window_ctrls) {
     overwolf.windows.getCurrentWindow(function(result){
         vars.current_window = result.window;
     });
+    addWindowCtrls(window_ctrls);
     window.addEventListener("storage", update_vars, false);
     if (reset) {
         window.localStorage.setItem("server", null);
         window.localStorage.setItem("channels", null);
-        window.localStorage.setItem("clientInfo", null);
+        window.localStorage.setItem("clients", null);
     }
 }
 
@@ -159,13 +166,19 @@ function closeWindow(window_name) {
 }
 
 function setupServer(server) {
-    vars.server = server;
+    setVar("server", server);
     $("button.button").removeClass("hidden");
     plugin().getChannels(vars.server.serverId, function(result, channels) {
         debug("Channels:", channels);
-        vars.channels = channels;
+        setVar("channels", channels);
         saveVars();
         openWindow("notifications");
+    });
+    plugin().getClientInfo({serverId: vars.server.serverId}, function(result, data) {
+        if (result.success)
+            updateClientInfo(data);
+        else
+            console.log("Couldn't get client info");
     });
     $("#no-server").hide();
     $("#container").removeClass("no-server");
@@ -188,6 +201,7 @@ function addListeners() {
             $("#no-server").show();
             closeWindow("channels");
             closeWindow("toggles");
+            closeWindow("chat");
         }
         if(obj.error)
             debug("Error Code:", obj.errorCode, "-", error);
@@ -208,54 +222,63 @@ function showControls() {
     ctrls = $("#window-controls");
     //if (!ctrls.is(":hidden"))
     //ctrls.hide();
-    ctrls.fadeIn(100);
+    ctrls.fadeIn(200);
 }
 
 function hideControls() {
     ctrls = $("#window-controls");
     //if (!ctrls.is(":hidden"))
     //ctrls.hide();
-    ctrls.fadeOut(100);
+    ctrls.finish();
+    ctrls.fadeOut(200);
 }
 
 function windowControlVisibility(e) {
     if (e.pageX === 0 && e.pageY === 0)
-        setVar("control-anim-"+vars.current_window.id, window.setTimeout(hideControls, 100));
+        hideControls();
+        //setVar("control-anim-"+vars.current_window.id, window.setTimeout(hideControls, 100));
     else {
-        window.clearTimeout(getVar("control-anim"));
+
+        //window.clearTimeout(getVar("control-anim"));
         showControls();
     }
 }
 
 
-function addWindowCtrls() {
-        window_ctrls = "<div id='window-controls' style='display: none;'>\
-            <button id='close-window'></button>\
-            <button id='minimize-window'></button>\
-            <button id='move-window' class='icon move'></button>\
-            <svg>\
-                <path d='M24,0 L24,60 C24,80 2,55 3,110 L0,110 L0,0 L19,0 A5,5 0 0,1 24,5' style='stroke: none; fill:#222;' />\
-                <path d='M0,1 L19,1 A5,5 0 0,1 24,5 L24,55 C24,80 2,55 3,110' style='stroke: #111; fill: none; stroke-width: 3px;' />\
-                <path stroke-dasharray='1,1' d='M3,1 L3,115' style='stroke: #111; stroke-width: 1px'/>\
-            </svg>\
-        </div>"
-        console.log(window_ctrls);
-        document.body.innerHTML = window_ctrls + document.body.innerHTML;
+function addWindowCtrls(window_ctrl_ops) {
+        var window_ctrls = $("<div id='window-controls' style='display: none;'>");
+        var close = $("<button id='close-window'>");
+        var minimize = $("<button id='minimize-window'>");
+        var move = $("<button id='move-window' class='icon move'>");
+        var svg = "<svg>\
+            <path d='M24,0 L24,60 C24,80 2,55 3,110 L0,110 L0,0 L19,0 A5,5 0 0,1 24,5' style='stroke: none; fill:#222;' />\
+            <path d='M0,1 L19,1 A5,5 0 0,1 24,5 L24,55 C24,80 2,55 3,110' style='stroke: #111; fill: none; stroke-width: 3px;' />\
+            <path stroke-dasharray='1,1' d='M3,1 L3,115' style='stroke: #111; stroke-width: 1px'/>\
+        </svg>"
+        if (window_ctrl_ops.close)
+            window_ctrls.append(close);
+        if (window_ctrl_ops.minimize)
+            window_ctrls.append(minimize);
+        if (window_ctrl_ops.move)
+            window_ctrls.append(move);
+        if (window_ctrl_ops.svg)
+            window_ctrls.append(svg);
+        $(document.body).prepend(window_ctrls);
+        $("#move-window").mousedown(drag);
+        $("#close-window").click(function(e) {
+            onCurrentWindow(overwolf.windows.close);
+        });
+        $("#minimize-window").click(function(e) {
+            onCurrentWindow(overwolf.windows.minimize);
+        });
 }
 
 $(function() {
-    addWindowCtrls();
     //$(document.body).mousedown(drag);
-    $("#move-window").mousedown(drag);
+    $("#header").mousedown(drag);
     $(document.body).mousemove(windowControlVisibility);
     $("button").mousedown(function(e) { e.stopPropagation() });
     $(".button").mouseover(function(e) {$(e.target).children(".tooltip").addClass("shown-inline")});
     $(".button").mouseout(function(e) {$(e.target).children(".tooltip").removeClass("shown-inline")});
     $(document.body).on("mousedown", ".channel", function(e) { debug("hi");e.stopPropagation() });
-    $("#close-window").click(function(e) {
-        onCurrentWindow(overwolf.windows.close);
-    });
-    $("#minimize-window").click(function(e) {
-        onCurrentWindow(overwolf.windows.minimize);
-    });
 });

@@ -142,7 +142,7 @@ button.icon.info {
 
     cursor: pointer;
     outline: none;
-    transition: all 0.25s, box-shadow 0.1s;
+    transition: font-size 0.25s, border-color 0.25s, background-color 0.25s, box-shadow 0.1s;
 }
 
 .button:hover, .button:active {
@@ -152,7 +152,8 @@ button.icon.info {
 }
 
 .button:active {
-    box-shadow: inset 0px 0px 5px 5px rgba(0,0,0,0.125);
+    box-shadow: inset 0px 0px 5px 5px rgba(0,0,0,0.25);
+    border: none;
 }
 
 .button.icon {
@@ -203,7 +204,7 @@ button.icon.info {
     border-color: #d43f3a;
 }
 
-.button.red:hover {
+.button.red:hover, .button.red:active {
     background-color: #c9302c;
     border-color: #ac2925;
 }
@@ -213,7 +214,7 @@ button.icon.info {
     border-color: #4cae4c;
 }
 
-.button.green:hover {
+.button.green:hover, .button.green:active {
     background-color: #449d44;
     border-color: #398439;
 }
@@ -231,7 +232,12 @@ button.icon.info {
 }
 
 .channel {
+    margin-left: -10px;
+    padding-left: 10px;
+}
 
+.channel:not(:last-child) {
+    border-bottom: 3px solid #333;
 }
 
 .channel:hover {
@@ -259,6 +265,7 @@ ul#channels {
     max-height: 330px;
     padding: 10px 0 10px 10px;
     border-radius: 5px;
+    background-color: #46b8da;
 }
 
 ul#channels::-webkit-scrollbar {
@@ -296,9 +303,12 @@ ul#channels::-webkit-scrollbar {
     border-radius:5px;
 }
 
+#header {
+    cursor: move;
+}
 
 #content {
-    clear: both;
+    /*clear: both;*/
     margin-top: 10px;
 }
 
@@ -315,4 +325,32 @@ ul#channels::-webkit-scrollbar {
     width: 25px;
     height: 110px;
     z-index: 1;
+}
+
+#container.notifications {
+    background: none;
+    border: none;
+}
+
+#container.notifications:hover {
+    background: red;
+}
+
+.client {
+    background: rgba(0,0,0,.3);
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 2px;
+    padding-left: 5px;
+    margin-bottom: 1px;
+    font-family: fantasy;
+    color: #5bc0de;
+    text-shadow: -1px -1px black, -1px 1px black, 1px -1px black, 2px 2px black;
+    position: relative;
+}
+
+.client > span {
+    position: absolute;
+    top: calc(100% / 2);
+    right: 0;
 }

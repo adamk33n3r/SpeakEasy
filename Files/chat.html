@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>Adam's Overwolf App</title>
+        <script src="javascripts/jquery-2.1.1.js"></script>
+        <link rel="stylesheet" href="stylesheets/icofont.css"/>
+        <link rel="stylesheet" href="stylesheets/style.css"/>
+        <link rel="stylesheet" href="stylesheets/chat.css"/>
+    </head>
+    <body>
+        <div id="container">
+          <div id="tabs">
+            <div id="Server" class="tab">Server</div>
+            <div id="Channel" class="tab">
+              <span class="name">Channel</span>
+            </div>
+            <div id="private1" class="tab">
+              <span class="name">Private1</span>
+              <span class="icon cross2"></span>
+            </div>
+            <div id="private2" class="tab">
+              <span class="name">Private2</span>
+              <span class="icon cross2"></span>
+            </div>
+          </div>
+          <div id="content">
+            <div id="messages"></div>
+            <input id="textbox" type="text" style="" />
+          </div>
+        </div>
+        <button style="margin-top: 30px; height: 60px;" onclick="newTab('new_tab')">New Tab</button>
+        <object id="ts_plugin" type="application/x-overwolfteamspeakplugin" style="width:0;height:0">
+            <param name="onload" value="pluginLoaded" />
+        </object>
+        <script src="javascripts/functions.js"></script>
+        <script src="javascripts/chat.js"></script>
+    </body>
+</html>

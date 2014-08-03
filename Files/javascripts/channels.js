@@ -5,7 +5,7 @@ function setupGradients() {
 
 $(function() {
     initVars();
-    setup();
+    setup(false, {move: true, close: true, minimize: true, svg: true});
     
     addChannels();
     $("body").on("click", ".channel", function(e) {

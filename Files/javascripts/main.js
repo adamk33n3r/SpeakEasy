@@ -48,12 +48,19 @@ function pluginLoaded() {
 }
 
 
-
+var down = null;
 
 $(function() {
-    setup(true);
+    setup(false, {move: true, close: true, minimize: true, svg: true});
     addListeners();
-    $("button[data-window]").click(function() {
-        openWindow($(this).data("window"));
+    $("button[data-window]").mousedown(function(e) {
+        e.stopPropagation();
+        down = e.target;
+    });
+    $("button[data-window]").mouseup(function(e) {
+        e.stopPropagation();
+        if (e.target === down)
+            openWindow($(this).data("window"));
+        down = null;
     });
 });

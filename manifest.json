@@ -38,7 +38,14 @@
                 "transparent": true,
                 "show_in_taskbar": true,
                 "resizable": false,
-                "size": { "width": 600, "height": 400 },
+                "size": { "width": 427, "height": 206 },
+            },
+            "notifications": {
+                "file": "Files/notifications.html",
+                "transparent": true,
+                "show_in_taskbar": false,
+                "resizable": false,
+                "size": { "width": 188, "height": 200 },
             },
             "help": {
                 "file": "Files/help.html",

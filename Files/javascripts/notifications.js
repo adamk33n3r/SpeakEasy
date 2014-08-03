@@ -2,13 +2,15 @@
 function createClient(data) {
     var client = document.createElement("div");
     client.id = data.clientId;
-    client.innerHTML = data.clientName;
+    client.innerHTML = data.clientName + "<span class='icon speaker2'></span>";
     client.style.display = "none";
-    $("#container").append(client);
+    client.className = "client";
+    $("#container").prepend(client);
     return $(client);
 }
 
 function handle_talking(data) {
+    console.log(data);
     if (data.state === "Talk") {
         var old_client = $("div#"+data.clientId)
         if (old_client.length > 0)
@@ -25,6 +27,6 @@ function handle_talking(data) {
 
 $(function() {
     initVars();
-    setup();
+    setup(false, {move: true, close: true, minimize: true, svg: true});
     plugin().addEventListener("onTalkStatusChanged", handle_talking);
 });
