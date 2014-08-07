@@ -8,26 +8,20 @@
     </head>
     <body>
         <div id="container">
-          <div id="tabs">
-            <div id="Server" class="tab">Server</div>
-            <div id="Channel" class="tab">
-              <span class="name">Channel</span>
+            <div id="sidebar">
+                <div id="tabs">
+                    <div id="Server" class="tab">Server</div>
+                    <div id="Channel" class="tab">
+                        <span class="name">Channel</span>
+                    </div>
+                </div>
+                <button id="new_tab_button">New Tab</button>
             </div>
-            <div id="private1" class="tab">
-              <span class="name">Private1</span>
-              <span class="icon cross2"></span>
+            <div id="content">
+                <div id="messages"></div>
+                <input id="textbox" type="text" style="" />
             </div>
-            <div id="private2" class="tab">
-              <span class="name">Private2</span>
-              <span class="icon cross2"></span>
-            </div>
-          </div>
-          <div id="content">
-            <div id="messages"></div>
-            <input id="textbox" type="text" style="" />
-          </div>
         </div>
-        <button style="margin-top: 30px; height: 60px;" onclick="newTab('new_tab')">New Tab</button>
         <object id="ts_plugin" type="application/x-overwolfteamspeakplugin" style="width:0;height:0">
             <param name="onload" value="pluginLoaded" />
         </object>

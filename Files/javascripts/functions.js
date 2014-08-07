@@ -64,7 +64,7 @@ function updateClientInfo(info) {
 
 function switchChannel(channel) {
     debug(vars.server)
-    plugin().switchChannel({serverId: vars.server.serverId, channelId:channel, clientId: getUserClient()}, function(result) {
+    plugin().switchChannel({serverId: vars.server.serverId, channelId:channel, clientId: vars.server.myClientId}, function(result) {
         debug(result);
         //alert("Switched to channel?");
     });
@@ -81,7 +81,7 @@ function addChannels() {
     for (channel_idx in vars.channels) {
         var channel = vars.channels[channel_idx];
         debug(channel);
-        li = $("<li class='channel' data-channelid='" + channel.channelId + "'>");
+        var li = $("<li class='channel' data-channelid='" + channel.channelId + "'>");
         li.text(channel.channelName);
         channels.append(li);
     }
@@ -145,22 +145,24 @@ function setup(reset, window_ctrls) {
  * Windows
  */
 
-function openWindow(window_name) {
+function openWindow(window_name, callback) {
     overwolf.windows.obtainDeclaredWindow(window_name, function(result) {
         debug("opening window '" + window_name + "'");
-        if (result.status === "success")
+        if (result.status === "success") {
             overwolf.windows.restore(result.window.id);
-        else
+            callback();
+        } else
             debug("error opening window '" + window_name + "'");
     });
 }
 
-function closeWindow(window_name) {
+function closeWindow(window_name, callback) {
     overwolf.windows.obtainDeclaredWindow(window_name, function(result) {
         debug("closing window '" + window_name + "'");
-        if (result.status === "success")
+        if (result.status === "success") {
             overwolf.windows.close(result.window.id);
-        else
+            callback();
+        } else
             debug("error closing window '" + window_name + "'");
     });
 }
@@ -179,6 +181,13 @@ function setupServer(server) {
             updateClientInfo(data);
         else
             console.log("Couldn't get client info");
+    });
+    plugin().getChannelClientList({serverId: vars.server.serverId, channelId: vars.server.channelId}, function(result, data) {
+        if (result.success) {
+            data.forEach(function(info) {
+                updateClientInfo(info);
+            });
+        }
     });
     $("#no-server").hide();
     $("#container").removeClass("no-server");
@@ -280,5 +289,5 @@ $(function() {
     $("button").mousedown(function(e) { e.stopPropagation() });
     $(".button").mouseover(function(e) {$(e.target).children(".tooltip").addClass("shown-inline")});
     $(".button").mouseout(function(e) {$(e.target).children(".tooltip").removeClass("shown-inline")});
-    $(document.body).on("mousedown", ".channel", function(e) { debug("hi");e.stopPropagation() });
+    $(document.body).on("mousedown", ".channel", function(e) { e.stopPropagation() });
 });

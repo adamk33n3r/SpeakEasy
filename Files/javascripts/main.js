@@ -32,10 +32,6 @@ function pluginLoaded() {
                 plugin().getServerInfo(servers.activeServerId, function(result, server){
                     if (result.success) {
                         setupServer(server);
-                        plugin().getClientInfo({serverId: parseInt(vars.server.serverId)}, function(result, clientInfo) {
-                            if (result.success)
-                                setVar("clientInfo", clientInfo); 
-                        });
                     } else {
                         debug("Error acquiring server information!");
                         debug(result);
@@ -62,5 +58,9 @@ $(function() {
         if (e.target === down)
             openWindow($(this).data("window"));
         down = null;
+    });
+    plugin().addEventListener("onClientEvent", function(data) {
+        console.log("CLIENT EVENT!!!");
+        console.log(data);
     });
 });

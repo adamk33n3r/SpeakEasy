@@ -1,0 +1,151 @@
+::-webkit-scrollbar {
+    background: black;
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,1); 
+    border-radius: 10px;
+    background: #333;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,1); 
+}
+
+#container {
+  width: 400px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px 0 10px 10px;
+  padding: 0;
+}
+
+#sidebar {
+  float: left;
+}
+
+#tabs {
+  font-size: 0;
+  width: 98px;
+  height: calc(100% - 24px);
+  background: #111;
+  overflow-y: auto;
+  border: 2px solid #222;
+  border-radius: 6px 0 0 0;
+}
+
+.tab {
+  font-size: 12pt;
+  background: #111;
+  padding: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab:not(:last-child) {
+  border-bottom: 2px solid #222;
+}
+
+.name {
+  overflow: hidden;
+  display: block;
+}
+
+.tab > .icon {
+  font-size: 6pt;
+  padding: 4px;
+  background: #333;
+  border-radius: 3px;
+  position: absolute;
+  right: 3px;
+  top: 50%;
+  margin-top: -8px;
+  line-height: initial;
+}
+
+.tab > .icon:hover {
+  background: #555;
+}
+
+#new_tab_button {
+    height: 20px;
+    width: 100%;
+    cursor: pointer;
+    background: #111;
+    color: #ccc;
+    padding: 0;
+    border: 2px solid #222;
+    border-top: none;
+    border-radius: 0 0 0 5px;
+    outline: none;
+}
+
+#new_tab_button:hover, .tab:hover {
+    background: #222;
+    color: white;
+}
+
+
+
+
+#content {
+  background: #222;
+  float: left;
+  width: 296px;
+  position: relative;
+  margin: 0;
+}
+
+#messages {
+  height: 176px;
+  overflow-y: scroll;
+  position: relative;
+  background: #333;
+}
+
+#messages:after {
+  content:'';
+  box-shadow: inset 0 0 10px 6px rgba(0,0,0,1);
+  position: fixed;
+  top: 3px;
+  left: 105px;
+  width: 284px;
+  height: 176px;
+}
+
+#textbox {
+  padding: 0;
+  height: 24px;
+  width: calc(100% + 2px);
+  border: 2px solid #222;
+  border-radius: 5px;
+  background: #111;
+  color: white;
+  padding-left: 8px;
+  outline: none;
+  margin-left: -2px;
+}
+
+#textbox:focus {
+    box-shadow: inset 0 0 5px -1px white;
+}
+
+.message {
+  padding: 2px 5px;
+  background: #333;
+  word-break: break-all;
+}
+
+.message:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+
+.message:first-child {
+  padding-top: 5px;
+}
+
+.message:last-child {
+  padding-bottom: 5px;
+}

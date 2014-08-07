@@ -231,16 +231,11 @@ button.icon.info {
     display: block;
 }
 
-.channel {
-    margin-left: -10px;
-    padding-left: 10px;
-}
-
-.channel:not(:last-child) {
+.channel:not(:last-child), .client-list .client:not(:last-child) {
     border-bottom: 3px solid #333;
 }
 
-.channel:hover {
+.channel:hover, .client-list .client:hover {
     cursor: pointer;
     color: #888;
 }
@@ -259,7 +254,7 @@ ul.inline > li, ol.inline > li {
     display: inline;
 }
 
-ul#channels {
+ul#channels, ul#clients {
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 330px;
@@ -268,7 +263,7 @@ ul#channels {
     background-color: #46b8da;
 }
 
-ul#channels::-webkit-scrollbar {
+ul#channels::-webkit-scrollbar, ul#clients::-webkit-scrollbar {
     display: none;
 }
 
@@ -296,7 +291,7 @@ ul#channels::-webkit-scrollbar {
     position: fixed;
     pointer-events: none;
     margin-left: -10px;
-    width: 150px;
+    width: calc(100% - 38px);
     height: 320px;
     margin-top: -10px;
     box-shadow: 0px 0px 15px 0px black inset;
@@ -336,7 +331,7 @@ ul#channels::-webkit-scrollbar {
     background: red;
 }
 
-.client {
+.notifications > .client {
     background: rgba(0,0,0,.3);
     border: 2px solid black;
     border-radius: 5px;
@@ -349,7 +344,7 @@ ul#channels::-webkit-scrollbar {
     position: relative;
 }
 
-.client > span {
+.notifications > .client > span {
     position: absolute;
     top: calc(100% / 2);
     right: 0;

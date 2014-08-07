@@ -6,11 +6,11 @@ $(function() {
     $("button#mute-speakers").mousedown(function(e) { down = e.target });
     $("button#mute-speakers").mouseup(function(e) { if (e.target === down) mute({ speakers: "toggle" }); down = null; });
     window.setInterval(function() {
-        if (vars.clientInfo.isInputMuted)
+        if (getUserClient().isInputMuted)
             $("#mute-mic").removeClass("green").addClass("red");
         else
             $("#mute-mic").removeClass("red").addClass("green");
-        if (vars.clientInfo.isOutputMuted)
+        if (getUserClient().isOutputMuted)
             $("#mute-speakers").removeClass("green").addClass("red");
         else
             $("#mute-speakers").removeClass("red").addClass("green");
