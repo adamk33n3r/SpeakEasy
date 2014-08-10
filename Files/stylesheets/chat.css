@@ -6,7 +6,7 @@
 ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,1); 
     border-radius: 10px;
-    background: #333;
+    background: #55555c;
 }
  
 ::-webkit-scrollbar-thumb {
@@ -29,23 +29,23 @@
 #tabs {
   font-size: 0;
   width: 98px;
-  height: calc(100% - 24px);
-  background: #111;
+  height: calc(100% - 26px);
+  background: #33333a;
   overflow-y: auto;
-  border: 2px solid #222;
+  border: 2px solid #44444b;
   border-radius: 6px 0 0 0;
 }
 
 .tab {
   font-size: 12pt;
-  background: #111;
+  background: #33333a;
   padding: 5px;
   cursor: pointer;
   position: relative;
 }
 
 .tab:not(:last-child) {
-  border-bottom: 2px solid #222;
+  border-bottom: 2px solid #44444b;
 }
 
 .name {
@@ -56,7 +56,7 @@
 .tab > .icon {
   font-size: 6pt;
   padding: 4px;
-  background: #333;
+  background: #55555c;
   border-radius: 3px;
   position: absolute;
   right: 3px;
@@ -66,24 +66,24 @@
 }
 
 .tab > .icon:hover {
-  background: #555;
+  background: #77777e;
 }
 
 #new_tab_button {
-    height: 20px;
+    height: 22px;
     width: 100%;
     cursor: pointer;
-    background: #111;
+    background: #33333a;
     color: #ccc;
     padding: 0;
-    border: 2px solid #222;
+    border: 2px solid #44444b;
     border-top: none;
     border-radius: 0 0 0 5px;
     outline: none;
 }
 
 #new_tab_button:hover, .tab:hover {
-    background: #222;
+    background: #44444b;
     color: white;
 }
 
@@ -91,7 +91,7 @@
 
 
 #content {
-  background: #222;
+  background: #44444b;
   float: left;
   width: 296px;
   position: relative;
@@ -102,12 +102,12 @@
   height: 176px;
   overflow-y: scroll;
   position: relative;
-  background: #333;
+  background: #55555c;
 }
 
 #messages:after {
   content:'';
-  box-shadow: inset 0 0 10px 6px rgba(0,0,0,1);
+  box-shadow: inset 0 0 10px 6px rgba(0,0,7,1);
   position: fixed;
   top: 3px;
   left: 105px;
@@ -119,9 +119,9 @@
   padding: 0;
   height: 24px;
   width: calc(100% + 2px);
-  border: 2px solid #222;
+  border: 2px solid #44444b;
   border-radius: 5px;
-  background: #111;
+  background: #33333a;
   color: white;
   padding-left: 8px;
   outline: none;
@@ -134,7 +134,7 @@
 
 .message {
   padding: 2px 5px;
-  background: #333;
+  background: #55555c;
   word-break: break-all;
 }
 

@@ -37,7 +37,7 @@ a:hover {
     padding: 5px;
     background-color: #33333a;
     color: #ccc;
-    border: 3px #111 solid;
+    border: 3px #222229 solid;
     border-radius: 5px;
     width: calc(100% - 38px);
     height: calc(100% - 16px);
@@ -274,7 +274,7 @@ ul.inline > li, ol.inline > li {
 ul#channels, ul#clients {
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 330px;
+    max-height: 320px;
     padding: 10px 0 10px 10px;
     border-radius: 5px;
     background-color: #222229;
@@ -309,6 +309,7 @@ ul#channels::-webkit-scrollbar, ul#clients::-webkit-scrollbar {
 }
 
 #sides {
+    display: none;
     position: fixed;
     pointer-events: none;
     margin-left: -10px;

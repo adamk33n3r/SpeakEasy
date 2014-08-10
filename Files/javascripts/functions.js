@@ -263,8 +263,8 @@ function addWindowCtrls(window_ctrl_ops) {
         var move = $("<button id='move-window' class='icon move'>");
         var svg = "<svg>\
             <path d='M24,0 L24,60 C24,80 2,55 3,110 L0,110 L0,0 L19,0 A5,5 0 0,1 24,5' style='stroke: none; fill:#33333a;' />\
-            <path d='M0,1 L19,1 A5,5 0 0,1 24,5 L24,55 C24,80 2,55 3,110' style='stroke: #111; fill: none; stroke-width: 3px;' />\
-            <path stroke-dasharray='1,1' d='M3,1 L3,115' style='stroke: #111; stroke-width: 1px'/>\
+            <path d='M0,1 L19,1 A5,5 0 0,1 24,5 L24,55 C24,80 2,55 3,110' style='stroke: #222229; fill: none; stroke-width: 3px;' />\
+            <path stroke-dasharray='1,1' d='M3,1 L3,115' style='stroke: #222229; stroke-width: 1px'/>\
         </svg>"
         if (window_ctrl_ops.close)
             window_ctrls.append(close);
