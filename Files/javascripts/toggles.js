@@ -1,10 +1,8 @@
-var down = null;
 $(function() {
     initVars();
     setup(false, {move: true, close: true, minimize: true, svg: true});
     $("button#mute-mic").click(function() { mute({ mic: "toggle" }); });
-    $("button#mute-speakers").mousedown(function(e) { down = e.target });
-    $("button#mute-speakers").mouseup(function(e) { if (e.target === down) mute({ speakers: "toggle" }); down = null; });
+    $("button#mute-speakers").click(function() {mute({ speakers: "toggle" }); });
     window.setInterval(function() {
         if (getUserClient().isInputMuted)
             $("#mute-mic").removeClass("green").addClass("red");

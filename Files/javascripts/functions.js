@@ -102,7 +102,7 @@ function mute(options) {
         return False;
     var mic = options.mic === "toggle" ? !vars.clients[vars.server.myClientId].isInputMuted : options.mic;
     var speakers = options.speakers === "toggle" ? !getUserClient().isOutputMuted : options.speakers;
-    var params = {serverId: vars.server.serverId}
+    var params = {serverId: vars.server.serverId};
     if (mic !== undefined)
         params.muteMicrophone = mic;
     if (speakers !== undefined)
@@ -130,6 +130,7 @@ function setup(reset, window_ctrls) {
         vars.current_window = result.window;
     });
     addWindowCtrls(window_ctrls);
+    $("#title").append($('<button class="icon reload" onclick="location.reload()">'));
     window.addEventListener("storage", update_vars, false);
     if (reset) {
         window.localStorage.setItem("server", null);
@@ -150,7 +151,8 @@ function openWindow(window_name, callback) {
         debug("opening window '" + window_name + "'");
         if (result.status === "success") {
             overwolf.windows.restore(result.window.id);
-            callback();
+            if (callback)
+                callback();
         } else
             debug("error opening window '" + window_name + "'");
     });
@@ -260,7 +262,7 @@ function addWindowCtrls(window_ctrl_ops) {
         var minimize = $("<button id='minimize-window'>");
         var move = $("<button id='move-window' class='icon move'>");
         var svg = "<svg>\
-            <path d='M24,0 L24,60 C24,80 2,55 3,110 L0,110 L0,0 L19,0 A5,5 0 0,1 24,5' style='stroke: none; fill:#222;' />\
+            <path d='M24,0 L24,60 C24,80 2,55 3,110 L0,110 L0,0 L19,0 A5,5 0 0,1 24,5' style='stroke: none; fill:#33333a;' />\
             <path d='M0,1 L19,1 A5,5 0 0,1 24,5 L24,55 C24,80 2,55 3,110' style='stroke: #111; fill: none; stroke-width: 3px;' />\
             <path stroke-dasharray='1,1' d='M3,1 L3,115' style='stroke: #111; stroke-width: 1px'/>\
         </svg>"
@@ -281,13 +283,21 @@ function addWindowCtrls(window_ctrl_ops) {
             onCurrentWindow(overwolf.windows.minimize);
         });
 }
-
+var timeout_ids = {};
 $(function() {
     //$(document.body).mousedown(drag);
     $("#header").mousedown(drag);
     $(document.body).mousemove(windowControlVisibility);
     $("button").mousedown(function(e) { e.stopPropagation() });
-    $(".button").mouseover(function(e) {$(e.target).children(".tooltip").addClass("shown-inline")});
-    $(".button").mouseout(function(e) {$(e.target).children(".tooltip").removeClass("shown-inline")});
+    $(".button").mouseenter(function(e) {
+        timeout_ids[e.target.id] = window.setTimeout(function() { $(e.target).children(".tooltip").slideDown(200) }, 500);
+    });
+    $(".button").mouseleave(function(e) {
+        window.clearTimeout(timeout_ids[e.target.id]);
+        $(e.target).children(".tooltip").slideUp(200);
+    });
+    $(".tooltip").mouseleave(function(e) {
+        $(e.target).slideUp(200);
+    });
     $(document.body).on("mousedown", ".channel", function(e) { e.stopPropagation() });
 });

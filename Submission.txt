@@ -1,0 +1,9 @@
+Nickname: adamk33n3r
+Real name: Adam Keenan
+Email: adam.g.keenan@gmail.com
+Version: 1.0.0
+Category: chat & voicerd
+Tags: teamspeak
+
+CatchyTitle: SpeakEasy. 
+AwesomeLinesOfText: Like the Speakeasies of days gone by, this app is going behind the curtain to provide you with the features they don't want you to have. Get your fix with this app today!
