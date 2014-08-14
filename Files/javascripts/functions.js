@@ -1,11 +1,11 @@
-DEBUG=true
+DEBUG=true;
 
 function debug() {
     if (DEBUG)
         console.log.apply(console, arguments);
 }
 
-vars = {
+var vars = {
     server: null,
     channels: null,
     clients: {},
@@ -176,7 +176,7 @@ function setupServer(server) {
         debug("Channels:", channels);
         setVar("channels", channels);
         saveVars();
-        openWindow("notifications");
+        openWindow("talkers");
     });
     plugin().getClientInfo({serverId: vars.server.serverId}, function(result, data) {
         if (result.success)

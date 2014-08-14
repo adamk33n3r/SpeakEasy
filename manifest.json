@@ -14,7 +14,7 @@
         "start_window": "main",
         "windows": {
             "main": {
-                "file": "Files/index.html",
+                "file": "Files/main.html",
                 "transparent": true,
                 "resizable": false,
                 "size": { "width": 188, "height": 400 }
@@ -40,14 +40,20 @@
                 "resizable": false,
                 "size": { "width": 427, "height": 206 }
             },
-            "clients": {
-                "file": "Files/clients.html",
+            "client_list": {
+                "file": "Files/client_list.html",
                 "transparent": true,
                 "show_in_taskbar": true,
                 "resizable": false,
                 "size": { "width": 400, "height": 400 }
             },
-            "notifications": {
+            "talkers": {
+                "file": "Files/talkers.html",
+                "transparent": true,
+                "show_in_taskbar": false,
+                "resizable": true,
+                "size": { "width": 188, "height": 200 }
+            },"notifications": {
                 "file": "Files/notifications.html",
                 "transparent": true,
                 "show_in_taskbar": false,
