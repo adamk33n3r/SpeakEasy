@@ -6,12 +6,17 @@
         <link rel="stylesheet" href="stylesheets/style.css"/>
     </head>
     <body>
-        <div id="container">
+        <div id="container" style="overflow-y: scroll;">
             <div id="header">
                 <h3 id="title">SpeakEasy Help</h3>
             </div>
-            <p>Sometimes there are bugs that prevent the app from connecting to TeamSpeak. Sometimes you can get back to a working state by closing all windows and restarting the app.</p>
+            <p>Sometimes there are bugs that prevent the app from connecting to TeamSpeak and sometimes you can get back to a working state by closing the main window and restarting the app.</p>
             <p>In either case, please send me a pm on Overwolf's forums with any details about the bug you are experiencing and I will try my best to find a fix for you. My username is <a href="http://forums.overwolf.com/index.php?/user/5944-adamk33n3r/" target="_blank">adamk33n3r</a>.</p>
+            <p><strong>Chat:</strong> Use this to chat with your friends with text.</p>
+            <p><strong>Channels:</strong> List of all channels on the server. Click on to switch to it!</p>
+            <p><strong>Toggles:</strong> Buttons that let you toggle your mic and speakers.</p>
+            <p><strong>Client List:</strong> List of clients in channels that you are subscribed to. You can open a chat with users from here</p>
+            <p><strong>Settings:</strong> Sliders in order to move both the talkers and notification alerts.</p>
             <h3>Credits:</h3>
             <table style="color:#ccc;">
                 <tr>
@@ -41,9 +46,9 @@
         </div>
         <script src="javascripts/functions.js"></script>
         <script>
-            setup(false, {move: true, close: true, minimize: true, svg: true});
+            setup({move: true, close: true, minimize: true, svg: true});
         </script>
-        <script src="javascripts/storage.js"></script>
+        <script src="javascripts/storager/storager.js"></script>
 
     </body>
 </html>

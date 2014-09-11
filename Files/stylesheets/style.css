@@ -22,7 +22,9 @@
 body {
     margin: 0;
     overflow: hidden;
-    background: rgba(0,0,0,.01);;
+    background: rgba(0,0,0,.01);
+    font-family: sans-serif;
+    font-size: 10pt;
 }
 
 a {
@@ -53,6 +55,8 @@ a:hover {
     display: block;
     margin: 0;
     text-align: center;
+    font-family: serif;
+    font-size: 14pt;
     text-shadow: 0 1px 1px black;
 }
 
@@ -202,6 +206,22 @@ button.icon.reload {
     color: #398439;
 }
 
+.button.blue {
+    color: #247;
+}
+
+.button.blue:hover, .button.blue:active {
+    color: #236;
+}
+
+.button.lightblue {
+    color: #369;
+}
+
+.button.lightblue:hover, .button.lightblue:active {
+    color: #247;
+}
+
 
 .tooltip {
     display: none;
@@ -246,15 +266,24 @@ button.icon.reload {
     display: block;
 }
 
+.channel, .client-list .client {
+    transition: all .2s;
+    padding-right: 10px;
+}
+
 .channel:not(:last-child), .client-list .client:not(:last-child) {
-    margin-left: -10px;
-    padding-left: 10px;
+    /*margin-bottom: 2px;*/
     /*border-bottom: 3px solid #333;*/
 }
 
-.channel:hover, .client-list .client:hover {
+.channel:hover, .client-list .client .send-msg:hover {
     cursor: pointer;
     color: #888;
+    color: white;
+}
+
+.client > .send-msg {
+    float: right;
 }
 
 ul.unstyled, ol.unstyled {
@@ -276,11 +305,12 @@ ul#channels, ul#clients {
     overflow-x: hidden;
     max-height: 320px;
     padding: 10px 0 10px 10px;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
     background-color: #222229;
     color: #ccc;
     font-weight: bold;
-    box-shadow: inset 0 2px 5px #050506,0 1px 1px #474e5d;
+    font-size: 10pt;
+    text-shadow: 0 1px 1px black;
     box-shadow: inset 0 2px 5px #050506,0 1px 1px #44444f;
 }
 
@@ -294,8 +324,8 @@ ul#channels::-webkit-scrollbar, ul#clients::-webkit-scrollbar {
     background: -webkit-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
     margin-left: -10px;
     margin-top: -10px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    /*border-top-left-radius: 5px;*/
+    /*border-top-right-radius: 5px;*/
 }
 
 #more-down {
@@ -303,9 +333,9 @@ ul#channels::-webkit-scrollbar, ul#clients::-webkit-scrollbar {
     pointer-events: none;
     background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
     margin-left: -10px;
-    margin-top: 320px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    margin-top: 314px;
+    /*border-bottom-left-radius: 5px;*/
+    /*border-bottom-right-radius: 5px;*/
 }
 
 #sides {
@@ -344,16 +374,17 @@ ul#channels::-webkit-scrollbar, ul#clients::-webkit-scrollbar {
     z-index: 1;
 }
 
-#container.notifications {
+#container.talkers, #container.notifications {
     background: none;
     border: none;
+    width: calc(100% - 10px);
 }
 
-#container.notifications:hover {
-    background: rgba(0,0,0,0.1);
+#container.talkers:hover {
+    /*background: rgba(0,0,0,0.1);*/
 }
 
-.notifications > .client {
+.talkers > .client, .notifications > .notification {
     background: rgba(0,0,0,.3);
     border: 2px solid black;
     border-radius: 5px;
@@ -364,10 +395,72 @@ ul#channels::-webkit-scrollbar, ul#clients::-webkit-scrollbar {
     color: #5bc0de;
     text-shadow: -1px -1px black, -1px 1px black, 1px -1px black, 2px 2px black;
     position: relative;
+    overflow-wrap: break-word;
 }
 
-.notifications > .client > span {
+.notifications > .notification > .hover-notif {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background: rgba(0,0,0,.2);
+}
+
+.notifications > .notification > .hover-notif > span {
+    position: absolute;
+    left: 0;
+    top: calc(100% / 2);
+    text-align: center;
+    width: 100%;
+    line-height: 0;
+}
+
+.talkers > .client > span {
     position: absolute;
     top: calc(100% / 2);
-    right: 0;
+    right: 5px;
+}
+
+.talkers > #loc, .notifications > #loc {
+    position: absolute;
+    width: 90%;
+    height: 10px;
+    left: 5%;
+    top: -10px;
+    box-shadow: 0 5px 10px black;
+}
+
+/***** SETTINGS *****/
+
+/* Sliders */
+
+input[type='range'] {
+    -webkit-appearance: slider-vertical;
+    box-shadow: inset 0 2px 5px #050506, 0 1px 1px #44444f;
+    background: #222229;
+    height: 10px;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    /*-webkit-appearance: none !important;*/
+    background: #ccc;
+    box-shadow: inset 0 3px 4px #050506, 0 1px 1px #44444f;
+    height: 10px;
+    width: 20px;
+    cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: slider-vertical !important;
+    background: #247;
+    box-shadow: inset 0 0 10px -4px black, 0 0 10px black;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    border-radius: 2px;
 }

@@ -1,11 +1,10 @@
 function setupGradients() {
     $("#sides").css("height", ul.outerHeight());
-    $("#more-down").css("margin-top", parseInt(ul.css("max-height")) - 10);
+    $("#more-down").css("margin-top", parseInt(ul.css("max-height")) - 6);
 }
 
 $(function() {
-    initVars();
-    setup(false, {move: true, close: true, minimize: true, svg: true});
+    setup({move: true, close: true, minimize: true, svg: true});
     
     addChannels();
     $("body").on("click", ".channel", function(e) {

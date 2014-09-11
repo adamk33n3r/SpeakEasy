@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Settings</title>
+        <title>SpeakEasy - Toggles</title>
         <script src="javascripts/vendor/jquery-2.1.1.js"></script>
         <link rel="stylesheet" href="stylesheets/icofont.css"/>
         <link rel="stylesheet" href="stylesheets/style.css"/>
@@ -8,15 +8,14 @@
     <body>
         <div id="container">
             <div id="header">
-                <h3 id="title">Settings</h3>
+                <h3 id="title">Toggles</h3>
             </div>
             <div id="content">
                 <button class="button toggle icon headset" id="mute-mic"><span class="tooltip">Microphone</span></button>
                 <button class="button toggle icon speaker" id="mute-speakers"><span class="tooltip">Speakers</span></button>
             </div>
         </div>
-        <object id="ts_plugin" type="application/x-overwolfteamspeakplugin" style="width:0;height:0">
-        </object>
+        <script src="javascripts/storager/storager.js"></script>
         <script src="javascripts/functions.js"></script>
         <script src="javascripts/toggles.js"></script>
     </body>

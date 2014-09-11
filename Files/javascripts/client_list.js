@@ -4,33 +4,30 @@ function setupGradients() {
 }
 
 function addClients() {
+//    storager.delete("clients");
     var $clients = $("#clients");
     $clients.children("li").remove();
-    $.each(vars.clients, function(id, client) {
+    $.each(storager.get("clients"), function(id, client) {
         console.log(id,client);
-        var li = $("<li>").addClass("client").attr("id", client.clientId).text(client.nickname);
+        var li = $("<li>").addClass("client").attr("id", client.clientId)
+            .append($("<span>").text(client.nickname))
+            .append($("<span>").text("Send Msg").addClass("send-msg"));
         $clients.append(li);
     });
 }
 
 $(function() {
-    initVars();
-    setVar("newMessageQueue", []);
-    setup(false, {move: true, close: true, minimize: true, svg: true});
+    setup({move: true, close: true, minimize: true, svg: true});
     
     addClients();
-    $("body").on("click", ".client", function(e) {
-        //alert("Clicked on it! "+ e.target.innerHTML);
-        var queue = getVar("newMessageQueue");
-        console.log(queue);
-        queue.push(this.id);
-        openWindow("chat", function() {
-            console.log("in CALLBACKKK");
-            setVar("newMessageQueue", queue); 
-        });
+    // Click to send message
+    $("body").on("click", ".send-msg", function(e) {
+        // Add to queue
+        storager.addToQueue("chat", "new_tab", this.parentNode.id);
+        openWindow("chat");
     });
-    ul = $("ul#clients")
-    mores = $("[id^=more-]")
+    ul = $("ul#clients");
+    mores = $("[id^=more-]");
     mores.css("width", ul.outerWidth());
     if (ul.outerHeight() <= parseInt(ul.css("max-height")))
         mores.hide();

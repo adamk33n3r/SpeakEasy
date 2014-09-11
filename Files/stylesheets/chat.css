@@ -2,150 +2,163 @@
     background: black;
     width: 12px;
 }
- 
+
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,1); 
-    border-radius: 10px;
-    background: #55555c;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 1);
+    background: #33333a;
 }
- 
+
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,1); 
+    -webkit-box-shadow: inset 0 0 10px -4px black, 0 0 10px black;
+    background: #247;
 }
 
 #container {
-  width: 400px;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 10px 0 10px 10px;
-  padding: 0;
+    width: 400px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 10px;
+    padding: 0;
 }
 
 #sidebar {
-  float: left;
+    float: left;
 }
 
 #tabs {
-  font-size: 0;
-  width: 98px;
-  height: calc(100% - 26px);
-  background: #33333a;
-  overflow-y: auto;
-  border: 2px solid #44444b;
-  border-radius: 6px 0 0 0;
+    /*font-size: 0;*/
+    width: 98px;
+    height: calc(100% - 26px);
+    background: #33333a;
+    overflow-y: auto;
+    border: 2px solid #33333a;
+    border-bottom: none;
+    border-radius: 6px 0 0 0;
 }
 
 .tab {
-  font-size: 12pt;
-  background: #33333a;
-  padding: 5px;
-  cursor: pointer;
-  position: relative;
+    /*font-size: 12pt;*/
+    font-weight: bold;
+    background: #222229;
+    padding: 5px;
+    cursor: pointer;
+    position: relative;
+    box-shadow: inset 0 2px 5px #050506, 0 1px 1px #44444f;
+    text-shadow: 0 1px 1px black;
 }
 
 .tab:not(:last-child) {
-  border-bottom: 2px solid #44444b;
+    /*border-bottom: 2px solid #44444b;*/
+    margin-bottom: 2px;
 }
 
 .name {
-  overflow: hidden;
-  display: block;
+    overflow: hidden;
+    display: block;
 }
 
 .tab > .icon {
-  font-size: 6pt;
-  padding: 4px;
-  background: #55555c;
-  border-radius: 3px;
-  position: absolute;
-  right: 3px;
-  top: 50%;
-  margin-top: -8px;
-  line-height: initial;
+    font-size: 6pt;
+    padding: 4px;
+    background: #33333a;
+    border-radius: 3px;
+    position: absolute;
+    right: 3px;
+    top: 50%;
+    margin-top: -8px;
+    line-height: initial;
 }
 
 .tab > .icon:hover {
-  background: #77777e;
+    background: #44444b;
+}
+
+.tab.unread {
+    background: #44444b;
 }
 
 #new_tab_button {
     height: 22px;
     width: 100%;
     cursor: pointer;
-    background: #33333a;
+    background: #222229;
     color: #ccc;
     padding: 0;
-    border: 2px solid #44444b;
-    border-top: none;
+    margin: 0;
+    border: 2px solid #33333a;
+    border-bottom: none;
     border-radius: 0 0 0 5px;
     outline: none;
 }
 
-#new_tab_button:hover, .tab:hover {
-    background: #44444b;
-    color: white;
+#new_tab_button, .tab {
+    transition: all .2s;
 }
 
-
-
+#new_tab_button:hover, .tab:hover {
+    color: white;
+    font-size: inherit;
+}
 
 #content {
-  background: #44444b;
-  float: left;
-  width: 296px;
-  position: relative;
-  margin: 0;
+    background: #33333a;
+    float: left;
+    width: 296px;
+    position: relative;
+    margin: 0;
 }
 
 #messages {
-  height: 176px;
-  overflow-y: scroll;
-  position: relative;
-  background: #55555c;
+    height: 176px;
+    overflow-y: scroll;
+    position: relative;
+    background: #222229;
 }
 
 #messages:after {
-  content:'';
-  box-shadow: inset 0 0 10px 6px rgba(0,0,7,1);
-  position: fixed;
-  top: 3px;
-  left: 105px;
-  width: 284px;
-  height: 176px;
+    content: '';
+    box-shadow: inset 0 5px 10px #050506, 0 1px 1px #44444f;
+    position: fixed;
+    top: 3px;
+    left: 105px;
+    width: 284px;
+    height: 176px;
 }
 
 #textbox {
-  padding: 0;
-  height: 24px;
-  width: calc(100% + 2px);
-  border: 2px solid #44444b;
-  border-radius: 5px;
-  background: #33333a;
-  color: white;
-  padding-left: 8px;
-  outline: none;
-  margin-left: -2px;
+    padding: 0;
+    height: 20px;
+    width: 100%;
+    border: 2px solid #33333a;
+    border-radius: 0 0 5px 0;
+    background: #222229;
+    color: white;
+    padding-left: 5px;
+    outline: none;
+    margin-top: 2px;
+    box-shadow: inset 0 2px 5px #050506, 0 1px 1px #44444f;
+    border: none;
 }
 
 #textbox:focus {
-    box-shadow: inset 0 0 5px -1px white;
+    /*box-shadow: inset 0 0 5px -1px white;*/
 }
 
 .message {
-  padding: 2px 5px;
-  background: #55555c;
-  word-break: break-all;
+    padding: 2px 5px;
+    background: #222229;
+    text-shadow: 0 1px 1px black;
+    word-break: break-all;
 }
 
 .message:not(:last-child) {
-  border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eee;
 }
 
 .message:first-child {
-  padding-top: 5px;
+    padding-top: 5px;
 }
 
 .message:last-child {
-  padding-bottom: 5px;
+    padding-bottom: 5px;
 }

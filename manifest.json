@@ -3,7 +3,7 @@
     "type": "WebApp",
     "meta": {
         "name": "SpeakEasy",
-        "version": "1.0.0",
+        "version": "1.2.0",
         "minimum-overwolf-version": "0.77.1.0",
         "author": "Adam Keenan",
         "icon": "IconMouseOver.png",
@@ -51,14 +51,22 @@
                 "file": "Files/talkers.html",
                 "transparent": true,
                 "show_in_taskbar": false,
-                "resizable": true,
-                "size": { "width": 188, "height": 200 }
+                "resizable": false,
+                "clickthrough": true,
+                "size": { "width": 200, "height": 500 }
             },"notifications": {
                 "file": "Files/notifications.html",
                 "transparent": true,
                 "show_in_taskbar": false,
+                "resizable": false,
+                "clickthrough": true,
+                "size": { "width": 200, "height": 500 }
+            },"settings": {
+                "file": "Files/settings.html",
+                "transparent": true,
+                "show_in_taskbar": true,
                 "resizable": true,
-                "size": { "width": 188, "height": 200 }
+                "size": { "width": 188, "height": 200 },
             },
             "help": {
                 "file": "Files/help.html",

@@ -1,6 +1,5 @@
 $(function() {
-    initVars();
-    setup(false, {move: true, close: true, minimize: true, svg: true});
+    setup({move: true, close: true, minimize: true, svg: true});
     $("button#mute-mic").click(function() { mute({ mic: "toggle" }); });
     $("button#mute-speakers").click(function() {mute({ speakers: "toggle" }); });
     window.setInterval(function() {

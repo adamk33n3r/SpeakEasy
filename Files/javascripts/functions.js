@@ -1,4 +1,4 @@
-DEBUG=true;
+DEBUG = true;
 
 function debug() {
     if (DEBUG)
@@ -12,74 +12,39 @@ var vars = {
     current_window: null,
 };
 
-/**
- * Variables
- */
-function update_vars(e) {
-    debug("updating vars");
-    if (!e) e = window.event;
-    debug(e.url + " changed " + e.key + " from " + e.oldValue + " to " + e.newValue);
-    vars[e.key] = JSON.parse(e.newValue);
-}
-
-function getVar(name) {
-    return JSON.parse(window.localStorage.getItem(name));
-}
-
-function setVar(name, val) {
-    vars[name] = val;
-    window.localStorage.setItem(name, JSON.stringify(val));
-}
-
-function initVars() {
-    vars.server = getVar("server");
-    vars.channels = getVar("channels");
-    vars.clients = getVar("clients");
-}
-
-function saveVars() {
-    for (var variable in vars) {
-        debug(variable, vars[variable]);
-        setVar(variable, vars[variable]);
-    }
-}
-
 function getUserClient() {
-    return vars.clients[vars.server.myClientId];
+    return storager.get("clients")[storager.get("server").myClientId];
 }
 
 function getPlugin() {
     return document.getElementById('ts_plugin');
 }
 
-plugin = getPlugin;
+
 
 function updateClientInfo(info) {
     console.log("UPDATING CLIENT");
-    var clients = getVar("clients");
+    var clients = storager.get("clients");
     clients[info.clientId] = info;
-    setVar("clients", clients);
+    storager.set("clients", clients);
 }
 
 
 function switchChannel(channel) {
-    debug(vars.server)
-    plugin().switchChannel({serverId: vars.server.serverId, channelId:channel, clientId: vars.server.myClientId}, function(result) {
-        debug(result);
-        //alert("Switched to channel?");
-    });
+    debug(storager.get("server"));
+    storager.addToQueue("main", "switch_channel", channel);
 }
 
 function addChannels() {
     var channels = $("ul#channels");
-    debug(vars.channels);
-    debug("found "+vars.channels.length+" channels");
-    //for (var i = 0; i < vars.channels.length; i++) {
-    //    channel = vars.channels[i];
-    if (vars.channels.length > 0)
+    debug(storager.get("channels"));
+    debug("found " + storager.get("channels").length + " channels");
+    //for (var i = 0; i < storager.get("channels").length; i++) {
+    //    channel = storager.get("channels")[i];
+    if (storager.get("channels").length > 0)
         channels.children("li").remove();
-    for (channel_idx in vars.channels) {
-        var channel = vars.channels[channel_idx];
+    for (channel_idx in storager.get("channels")) {
+        var channel = storager.get("channels")[channel_idx];
         debug(channel);
         var li = $("<li class='channel' data-channelid='" + channel.channelId + "'>");
         li.text(channel.channelName);
@@ -88,7 +53,7 @@ function addChannels() {
 }
 
 function onCurrentWindow(callback) {
-    overwolf.windows.getCurrentWindow(function(result) {
+    overwolf.windows.getCurrentWindow(function (result) {
         if (result.status === "success") {
             callback(result.window.id);
             return true;
@@ -100,46 +65,41 @@ function mute(options) {
     debug(options);
     if (options.mic === undefined && options.speakers === undefined)
         return False;
-    var mic = options.mic === "toggle" ? !vars.clients[vars.server.myClientId].isInputMuted : options.mic;
+    var mic = options.mic === "toggle" ? !storager.get("clients")[storager.get("server").myClientId].isInputMuted : options.mic;
     var speakers = options.speakers === "toggle" ? !getUserClient().isOutputMuted : options.speakers;
-    var params = {serverId: vars.server.serverId};
+    var params = {serverId: storager.get("server").serverId};
     if (mic !== undefined)
         params.muteMicrophone = mic;
     if (speakers !== undefined)
         params.muteSpeakers = speakers;
     debug(params);
     debug(getUserClient());
-    plugin().updateClientDeviceState(params, function(result) {
-        debug(result);
-    });
+    storager.addToQueue("main", "toggle", params);
 }
 
 function toggleAway() {
 }
 
 function drag() {
+    $("body").animate({opacity: .8}, 100);
     onCurrentWindow(overwolf.windows.dragMove);
 }
 
-function runTeamSpeak(){
+function done_dragging() {
+    $("body").animate({opacity: 1},100);
+}
+
+function runTeamSpeak() {
     overwolf.extensions.launch("lafgmhfbkjljkgoggomibmhlpijaofafbdhpjgif");
 }
 
-function setup(reset, window_ctrls) {
-    overwolf.windows.getCurrentWindow(function(result){
-        vars.current_window = result.window;
+function setup(window_ctrls) {
+    overwolf.windows.getCurrentWindow(function (result) {
+        storager.setLocal("current_window", result.window);
     });
     addWindowCtrls(window_ctrls);
     $("#title").append($('<button class="icon reload" onclick="location.reload()">'));
-    window.addEventListener("storage", update_vars, false);
-    if (reset) {
-        window.localStorage.setItem("server", null);
-        window.localStorage.setItem("channels", null);
-        window.localStorage.setItem("clients", null);
-    }
 }
-
-
 
 
 /**
@@ -147,75 +107,26 @@ function setup(reset, window_ctrls) {
  */
 
 function openWindow(window_name, callback) {
-    overwolf.windows.obtainDeclaredWindow(window_name, function(result) {
+    overwolf.windows.obtainDeclaredWindow(window_name, function (result) {
         debug("opening window '" + window_name + "'");
         if (result.status === "success") {
             overwolf.windows.restore(result.window.id);
             if (callback)
-                callback();
+                callback.apply(null, arguments.slice(2));
         } else
             debug("error opening window '" + window_name + "'");
     });
 }
 
 function closeWindow(window_name, callback) {
-    overwolf.windows.obtainDeclaredWindow(window_name, function(result) {
+    overwolf.windows.obtainDeclaredWindow(window_name, function (result) {
         debug("closing window '" + window_name + "'");
         if (result.status === "success") {
             overwolf.windows.close(result.window.id);
-            callback();
+            if (callback)
+                callback.apply(null, arguments.slice(2));
         } else
             debug("error closing window '" + window_name + "'");
-    });
-}
-
-function setupServer(server) {
-    setVar("server", server);
-    $("button.button").removeClass("hidden");
-    plugin().getChannels(vars.server.serverId, function(result, channels) {
-        debug("Channels:", channels);
-        setVar("channels", channels);
-        saveVars();
-        openWindow("talkers");
-    });
-    plugin().getClientInfo({serverId: vars.server.serverId}, function(result, data) {
-        if (result.success)
-            updateClientInfo(data);
-        else
-            console.log("Couldn't get client info");
-    });
-    plugin().getChannelClientList({serverId: vars.server.serverId, channelId: vars.server.channelId}, function(result, data) {
-        if (result.success) {
-            data.forEach(function(info) {
-                updateClientInfo(info);
-            });
-        }
-    });
-    $("#no-server").hide();
-    $("#container").removeClass("no-server");
-    //if (refresh_id !== undefined)
-    //    window.clearInterval(refresh_id);
-    //window.setInterval(updateClientInfo, 500);
-}
-
-/**
- * Listeners
- */
-function addListeners() {
-    plugin().addEventListener("onClientUpdated", updateClientInfo);
-    plugin().addEventListener("onServerStatusChange", function(obj) {
-        debug(obj.status);
-        if (obj.status === "CONNECTION_ESTABLISHED")
-            setupServer(obj.server);
-        else if (obj.status === "DISCONNECTED") {
-            $("button.button").addClass("hidden");
-            $("#no-server").show();
-            closeWindow("channels");
-            closeWindow("toggles");
-            closeWindow("chat");
-        }
-        if(obj.error)
-            debug("Error Code:", obj.errorCode, "-", error);
     });
 }
 
@@ -247,57 +158,76 @@ function hideControls() {
 function windowControlVisibility(e) {
     if (e.pageX === 0 && e.pageY === 0)
         hideControls();
-        //setVar("control-anim-"+vars.current_window.id, window.setTimeout(hideControls, 100));
+    //storager.set("control-anim-"+storager.get("current_window").id, window.setTimeout(hideControls, 100));
     else {
-
-        //window.clearTimeout(getVar("control-anim"));
+        //window.clearTimeout(storager.get("control-anim"));
         showControls();
     }
 }
 
 
 function addWindowCtrls(window_ctrl_ops) {
-        var window_ctrls = $("<div id='window-controls' style='display: none;'>");
-        var close = $("<button id='close-window'>");
-        var minimize = $("<button id='minimize-window'>");
-        var move = $("<button id='move-window' class='icon move'>");
-        var svg = "<svg>\
-            <path d='M24,0 L24,60 C24,80 2,55 3,110 L0,110 L0,0 L19,0 A5,5 0 0,1 24,5' style='stroke: none; fill:#33333a;' />\
-            <path d='M0,1 L19,1 A5,5 0 0,1 24,5 L24,55 C24,80 2,55 3,110' style='stroke: #222229; fill: none; stroke-width: 3px;' />\
-            <path stroke-dasharray='1,1' d='M3,1 L3,115' style='stroke: #222229; stroke-width: 1px'/>\
-        </svg>"
-        if (window_ctrl_ops.close)
-            window_ctrls.append(close);
-        if (window_ctrl_ops.minimize)
-            window_ctrls.append(minimize);
-        if (window_ctrl_ops.move)
-            window_ctrls.append(move);
-        if (window_ctrl_ops.svg)
-            window_ctrls.append(svg);
-        $(document.body).prepend(window_ctrls);
-        $("#move-window").mousedown(drag);
-        $("#close-window").click(function(e) {
-            onCurrentWindow(overwolf.windows.close);
-        });
-        $("#minimize-window").click(function(e) {
-            onCurrentWindow(overwolf.windows.minimize);
-        });
+    if (!window_ctrl_ops) return;
+    var window_ctrls = $("<div id='window-controls' style='display: none;'>");
+    var close = $("<button id='close-window'>");
+    var minimize = $("<button id='minimize-window'>");
+    var move = $("<button id='move-window' class='icon move'>");
+    var svg = "<svg>\
+            <path d='M24,0 L24,60 C24,80 2,55 3,110 L0,110 L0,0 L19,0 A5,5 0 0,1 24,5' style='stroke: none; fill:#33333a;'></path>\
+            <path d='M0,1 L19,1 A5,5 0 0,1 24,5 L24,55 C24,80 2,55 3,110' style='stroke: #222229; fill: none; stroke-width: 3px;'></path>\
+            <path stroke-dasharray='1,1' d='M3,1 L3,115' style='stroke: #222229; stroke-width: 1px'></path>\
+        </svg>";
+    if (window_ctrl_ops.close)
+        window_ctrls.append(close);
+    if (window_ctrl_ops.minimize)
+        window_ctrls.append(minimize);
+    if (window_ctrl_ops.move)
+        window_ctrls.append(move);
+    if (window_ctrl_ops.svg)
+        window_ctrls.append(svg);
+    $(document.body).prepend(window_ctrls);
+    $("#move-window").mousedown(drag);
+    $("#move-window").mouseup(done_dragging);
+    $("#close-window").click(function (e) {
+        onCurrentWindow(overwolf.windows.close);
+    });
+    $("#minimize-window").click(function (e) {
+        onCurrentWindow(overwolf.windows.minimize);
+    });
 }
 var timeout_ids = {};
-$(function() {
+$(function () {
+    storager.init({
+        app_name: "speak_easy",
+        global: [
+            { name: "server", value: null },
+            { name: "channels", value: null },
+            { name: "clients", value: {} },
+            { name: "talking", value: [] }
+        ],
+        local: [
+            { name: "current_window", value: null },
+            { name: "clients", value: {} }
+        ]
+    });
     //$(document.body).mousedown(drag);
     $("#header").mousedown(drag);
+    $("#header").mouseup(done_dragging);
     $(document.body).mousemove(windowControlVisibility);
-    $("button").mousedown(function(e) { e.stopPropagation() });
-    $(".button").mouseenter(function(e) {
-        timeout_ids[e.target.id] = window.setTimeout(function() { $(e.target).children(".tooltip").slideDown(200) }, 500);
+//    $("button").mousedown(function(e) { e.stopPropagation() });
+    var buttons = $(".button");
+    buttons.mouseenter(function (e) {
+        timeout_ids[e.target.id] = window.setTimeout(function () {
+            $(e.target).children(".tooltip").slideDown(200)
+        }, 500);
     });
-    $(".button").mouseleave(function(e) {
+    buttons.mouseleave(function (e) {
         window.clearTimeout(timeout_ids[e.target.id]);
+        delete timeout_ids[e.target.id];
         $(e.target).children(".tooltip").slideUp(200);
     });
-    $(".tooltip").mouseleave(function(e) {
+    $(".tooltip").mouseleave(function (e) {
         $(e.target).slideUp(200);
     });
-    $(document.body).on("mousedown", ".channel", function(e) { e.stopPropagation() });
+//    $(document.body).on("mousedown", ".channel", function(e) { e.stopPropagation() });
 });
